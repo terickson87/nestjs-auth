@@ -5,20 +5,39 @@ import { CoffeesModule } from './coffees/coffees.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IamModule } from './iam/iam.module';
+import { ConfigModule } from '@nestjs/config';
+import appConfig from './config/app.config';
+import { validate } from './config/env.validation';
+import { EnvService } from './config/env.service';
+import { EnvModule } from './config/env.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig],
+      cache: true,
+      validate,
+    }),
+    EnvModule,
     CoffeesModule,
     UsersModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'pass123',
-      database: 'postgres',
-      autoLoadEntities: true,
-      synchronize: true, // For prod set to false
+    TypeOrmModule.forRootAsync({
+      imports: [EnvModule],
+      useFactory: async (envService: EnvService) => {
+        await ConfigModule.envVariablesLoaded;
+        return {
+          type: 'postgres',
+          host: envService.dbHost,
+          port: envService.dbPort,
+          username: envService.dbUser,
+          password: envService.dbPass,
+          database: envService.dbName,
+          autoLoadEntities: true,
+          synchronize: true, // disable for prod, auto creates tables and SQL data types
+        };
+      },
+      inject: [EnvService],
     }),
     IamModule,
   ],
