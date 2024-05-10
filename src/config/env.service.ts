@@ -24,6 +24,15 @@ export class EnvService {
     return this.configService.get('JWT_ACCESS_TOKEN_TTL');
   }
 
+  get jwtOptions() {
+    return {
+      audience: this.jwtAudience,
+      issuer: this.jwtIssuer,
+      secret: this.jwtSecret,
+      expiresIn: this.jwtAccessTokenTtl,
+    };
+  }
+
   // DB
   get dbHost(): string {
     return this.configService.get('DATABASE_HOST');

@@ -57,14 +57,8 @@ export class AuthenticationService {
       sub: user.id,
       email: user.email,
     };
-
-    const jwtConfig = {
-      audience: this.envService.jwtAudience,
-      issuer: this.envService.jwtIssuer,
-      secret: this.envService.jwtSecret,
-      expiresIn: this.envService.jwtAccessTokenTtl,
-    };
-    const accessToken = await this.jwtService.signAsync(payload, jwtConfig);
+    const jwtOptions = this.envService.jwtOptions;
+    const accessToken = await this.jwtService.signAsync(payload, jwtOptions);
 
     return { accessToken };
   }
