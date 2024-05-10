@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { EnvService } from '../config/env.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './authentication/gaurds/access-token.guard';
+import { AuthenticationGuard } from './authentication/gaurds/authentication.guard';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { AccessTokenGuard } from './authentication/gaurds/access-token.guard';
   ],
   providers: [
     { provide: HashingService, useClass: BcryptService },
-    { provide: APP_GUARD, useClass: AccessTokenGuard },
+    { provide: APP_GUARD, useClass: AuthenticationGuard },
+    AccessTokenGuard,
     AuthenticationService,
   ],
   controllers: [AuthenticationController],

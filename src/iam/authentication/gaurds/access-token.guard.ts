@@ -25,7 +25,6 @@ export class AccessTokenGuard implements CanActivate {
     try {
       const payload = await this.jwtService.verifyAsync(token, jwtOptions);
       request[REQUEST_USER_KEY] = payload;
-      console.log(payload);
     } catch {
       throw new UnauthorizedException();
     }
