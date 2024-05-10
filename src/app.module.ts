@@ -6,7 +6,6 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IamModule } from './iam/iam.module';
 import { ConfigModule } from '@nestjs/config';
-import appConfig from './config/app.config';
 import { validate } from './config/env.validation';
 import { EnvService } from './config/env.service';
 import { EnvModule } from './config/env.module';
@@ -15,7 +14,6 @@ import { EnvModule } from './config/env.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig],
       cache: true,
       validate,
     }),
