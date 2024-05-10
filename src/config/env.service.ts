@@ -15,13 +15,13 @@ export class EnvService {
     return this.configService.get('JWT_SECRET');
   }
   get jwtAudience(): string {
-    return this.configService.get('JWT_AUDIENCE');
+    return this.configService.get('JWT_TOKEN_AUDIENCE');
   }
   get jwtIssuer(): string {
-    return this.configService.get('JWT_ISSUER');
+    return this.configService.get('JWT_TOKEN_ISSUER');
   }
   get jwtAccessTokenTtl(): number {
-    return this.configService.get('ACCESS_TOKEN_TTL');
+    return this.configService.get('JWT_ACCESS_TOKEN_TTL');
   }
 
   // DB

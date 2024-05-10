@@ -7,6 +7,7 @@ import {
   validateSync,
   IsString,
   IsPositive,
+  IsNotEmpty,
 } from 'class-validator';
 
 export enum NodeEnvironment {
@@ -17,32 +18,42 @@ export enum NodeEnvironment {
 }
 
 class EnvironmentVariables {
+  @IsNotEmpty()
   @IsEnum(NodeEnvironment)
   NODE_ENV: NodeEnvironment;
 
   // JWT
+  @IsNotEmpty()
   @IsString()
   JWT_SECRET: string;
+  @IsNotEmpty()
   @IsString()
   JWT_TOKEN_AUDIENCE: string;
+  @IsNotEmpty()
   @IsString()
   JWT_TOKEN_ISSUER: string;
+  @IsNotEmpty()
   @IsNumber()
   @Min(0)
   @IsPositive()
   JWT_ACCESS_TOKEN_TTL: number;
 
   // DB
+  @IsNotEmpty()
   @IsString()
   DATABASE_HOST: string;
+  @IsNotEmpty()
   @IsNumber()
   @Min(0)
   @Max(65535)
   DATABASE_PORT: number;
+  @IsNotEmpty()
   @IsString()
   DATABASE_USER: string;
+  @IsNotEmpty()
   @IsString()
   DATABASE_PASS: string;
+  @IsNotEmpty()
   @IsString()
   DATABASE_NAME: string;
 }

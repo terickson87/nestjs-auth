@@ -24,20 +24,17 @@ import { EnvModule } from './config/env.module';
     UsersModule,
     TypeOrmModule.forRootAsync({
       imports: [EnvModule],
-      useFactory: async (envService: EnvService) => {
-        await ConfigModule.envVariablesLoaded;
-        return {
-          type: 'postgres',
-          host: envService.dbHost,
-          port: envService.dbPort,
-          username: envService.dbUser,
-          password: envService.dbPass,
-          database: envService.dbName,
-          autoLoadEntities: true,
-          synchronize: true, // disable for prod, auto creates tables and SQL data types
-        };
-      },
       inject: [EnvService],
+      useFactory: async (envService: EnvService) => ({
+        type: 'postgres',
+        host: envService.dbHost,
+        port: envService.dbPort,
+        username: envService.dbUser,
+        password: envService.dbPass,
+        database: envService.dbName,
+        autoLoadEntities: true,
+        synchronize: true, // disable for prod, auto creates tables and SQL data types
+      }),
     }),
     IamModule,
   ],
