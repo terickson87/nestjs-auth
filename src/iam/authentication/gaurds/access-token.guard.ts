@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { EnvService } from '../../../config/env.service';
 import { Request } from 'express';
 import { REQUEST_USER_KEY } from '../../iam.constants';
@@ -20,7 +20,10 @@ export class AccessTokenGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromheader(request);
     if (!token) throw new UnauthorizedException();
-    const jwtOptions = this.envService.jwtOptions;
+    const jwtOptions: JwtSignOptions = {
+      ...this.envService.jwtOptions,
+      expiresIn: this.envService.jwtAccessTokenTtl,
+    };
 
     try {
       const payload = await this.jwtService.verifyAsync(token, jwtOptions);

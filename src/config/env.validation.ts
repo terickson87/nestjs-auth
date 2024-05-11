@@ -37,6 +37,11 @@ class EnvironmentVariables {
   @Min(0)
   @IsPositive()
   JWT_ACCESS_TOKEN_TTL: number;
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
+  @IsPositive()
+  JWT_REFRESH_TOKEN_TTL: number;
 
   // DB
   @IsNotEmpty()

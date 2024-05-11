@@ -9,9 +9,10 @@ import { Repository } from 'typeorm';
 import { HashingService } from '../hashing/hashing.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { EnvService } from '../../config/env.service';
 import { ActiveUserData } from '../interfaces/active-user-data.interface';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -53,14 +54,43 @@ export class AuthenticationService {
     if (!isEqual) {
       throw new UnauthorizedException('Password does not match');
     }
+    return await this.generateTokens(user);
+  }
 
-    const payload: ActiveUserData = {
-      sub: user.id,
-      email: user.email,
+  async refreshTokens(refreshTokenDto: RefreshTokenDto) {
+    try {
+      const { sub } = await this.jwtService.verifyAsync<
+        Pick<ActiveUserData, 'sub'>
+      >(refreshTokenDto.refreshToken, this.envService.jwtOptions);
+      const user = await this.userRepository.findOneByOrFail({ id: sub });
+      return this.generateTokens(user);
+    } catch (err) {
+      throw new UnauthorizedException();
+    }
+  }
+
+  private async generateTokens(user: User) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.signToken<Partial<ActiveUserData>>(
+        user.id,
+        this.envService.jwtAccessTokenTtl,
+        { email: user.email },
+      ),
+      this.signToken(user.id, this.envService.jwtRefreshTokenTtl),
+    ]);
+
+    return { accessToken, refreshToken };
+  }
+
+  private async signToken<T>(userId: number, expiresIn: number, payload?: T) {
+    const tokenPayload = {
+      sub: userId,
+      ...payload,
     };
-    const jwtOptions = this.envService.jwtOptions;
-    const accessToken = await this.jwtService.signAsync(payload, jwtOptions);
-
-    return { accessToken };
+    const jwtOptions: JwtSignOptions = {
+      expiresIn,
+      ...this.envService.jwtOptions,
+    };
+    return await this.jwtService.signAsync(tokenPayload, jwtOptions);
   }
 }

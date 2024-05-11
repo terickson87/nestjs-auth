@@ -23,13 +23,15 @@ export class EnvService {
   get jwtAccessTokenTtl(): number {
     return this.configService.get('JWT_ACCESS_TOKEN_TTL');
   }
+  get jwtRefreshTokenTtl(): number {
+    return this.configService.get('JWT_REFRESH_TOKEN_TTL');
+  }
 
   get jwtOptions() {
     return {
       audience: this.jwtAudience,
       issuer: this.jwtIssuer,
       secret: this.jwtSecret,
-      expiresIn: this.jwtAccessTokenTtl,
     };
   }
 
