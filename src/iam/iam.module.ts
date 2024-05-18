@@ -11,6 +11,7 @@ import { EnvService } from '../config/env.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './authentication/gaurds/access-token.guard';
 import { AuthenticationGuard } from './authentication/gaurds/authentication.guard';
+import { RefreshTokenIdsStorage } from './authentication/refresh-token-ids.storage';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AuthenticationGuard } from './authentication/gaurds/authentication.guar
     { provide: HashingService, useClass: BcryptService },
     { provide: APP_GUARD, useClass: AuthenticationGuard },
     AccessTokenGuard,
+    RefreshTokenIdsStorage,
     AuthenticationService,
   ],
   controllers: [AuthenticationController],
