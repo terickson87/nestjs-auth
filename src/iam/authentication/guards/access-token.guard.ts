@@ -35,7 +35,8 @@ export class AccessTokenGuard implements CanActivate {
   }
 
   private extractTokenFromheader(request: Request): string | undefined {
-    const [_, token] = request.headers.authorization?.split(' ') ?? [];
-    return token;
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    const result = type === 'Bearer' ? token : undefined;
+    return result;
   }
 }
