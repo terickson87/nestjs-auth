@@ -94,7 +94,12 @@ export class AuthenticationService {
       this.signToken<Partial<ActiveUserData>>(
         user.id,
         this.envService.jwtAccessTokenTtl,
-        { email: user.email, role: user.role },
+        {
+          email: user.email,
+          role: user.role,
+          // WARNING: Embedding this list of permissions in the JWT token will make it no longer be lightweight. It should just be a list of IDs of the permissions held in the database.
+          permissions: user.permissions,
+        },
       ),
       this.signToken(user.id, this.envService.jwtRefreshTokenTtl, {
         refreshTokenId, //TODO add interface to decribe the refreshToken's payload structure
