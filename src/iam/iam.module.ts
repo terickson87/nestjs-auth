@@ -20,6 +20,7 @@ import { PoliciesGuard } from './authorization/guards/policies.guard';
 import { ApiKeysService } from './authentication/api-keys.service';
 import { ApiKey } from '../users/api-keys/entities/api-key.entity';
 import { ApiKeyGuard } from './authentication/guards/api-key.guard';
+import { OtpAuthenticationService } from './authentication/otp-authentication.service';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { ApiKeyGuard } from './authentication/guards/api-key.guard';
     PolicyHandlerStorage,
     FrameworkContributorPolicyHandler,
     ApiKeysService,
+    OtpAuthenticationService,
   ],
   controllers: [AuthenticationController],
 })

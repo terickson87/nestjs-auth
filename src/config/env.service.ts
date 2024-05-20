@@ -35,6 +35,11 @@ export class EnvService {
     };
   }
 
+  // 2FA
+  get tfaAppName(): string {
+    return this.configService.get('TFA_APP_NAME');
+  }
+
   // DB
   get dbHost(): string {
     return this.configService.get('DATABASE_HOST');

@@ -43,6 +43,11 @@ class EnvironmentVariables {
   @IsPositive()
   JWT_REFRESH_TOKEN_TTL: number;
 
+  // 2FA
+  @IsNotEmpty()
+  @IsString()
+  TFA_APP_NAME: string;
+
   // DB
   @IsNotEmpty()
   @IsString()

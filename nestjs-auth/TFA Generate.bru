@@ -1,0 +1,22 @@
+meta {
+  name: TFA Generate
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/authentication/2fa/generate
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidXNlcjFAbmVzdGpzLmNvbSIsInJvbGUiOiJhZG1pbiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZV9jb2ZmZWUiXSwiaWF0IjoxNzE2MjQ2NTk2LCJleHAiOjE3MTYyNTAxOTYsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.Dx6ThMtL31vEeOW94aTxDxis8RHH3_sSMoxG_gw62Xs
+}
+
+body:json {
+  {
+    "email": "user1@nestjs.com",
+    "password": "Password!123"
+  }
+}

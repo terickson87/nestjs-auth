@@ -1,0 +1,22 @@
+meta {
+  name: TFA Disable
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3000/authentication/2fa/disable
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidXNlcjFAbmVzdGpzLmNvbSIsInJvbGUiOiJhZG1pbiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZV9jb2ZmZWUiXSwiaWF0IjoxNzE2MjQyMjcyLCJleHAiOjE3MTYyNDU4NzIsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.tHLUl6WCen8RKspUCPT8Ja8pXdn42KbLKRcEmic_-vY
+}
+
+body:json {
+  {
+    "email": "user1@nestjs.com",
+    "password": "Password!123"
+  }
+}

@@ -26,6 +26,12 @@ export class User {
   @Column({ enum: Role, default: Role.Regular })
   role: Role;
 
+  @Column({ default: false })
+  isTfaEnabled: boolean;
+
+  @Column({ nullable: true })
+  tfaSecret: string;
+
   // NOTE: Having the "permissions" column in combination with the "role"
   // likely does not make sense. We use both in this course just to showcase
   // two different approaches to authorization.
